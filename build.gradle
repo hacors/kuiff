@@ -49,9 +49,10 @@ subprojects {
 project('api') {
     dependencies {
         implementation project(":contract-kuiff")
+        implementation project(":core")
         implementation 'org.springframework.boot:spring-boot-starter'
         implementation 'org.springframework.boot:spring-boot-starter-web'
-        implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-sentinel'
+//        implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-sentinel'
         implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
         implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
         implementation 'com.alibaba.cloud:spring-cloud-starter-dubbo'
@@ -65,7 +66,9 @@ project('common') {
 
 project('core') {
     dependencies {
-        implementation 'com.alibaba.cloud:spring-cloud-starter-stream-rocketmq'
+        implementation project(":repository")
+        implementation 'org.springframework.boot:spring-boot-starter'
+//        implementation 'com.alibaba.cloud:spring-cloud-starter-stream-rocketmq'
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
     }
 }
@@ -94,6 +97,9 @@ project('contract-kuiff') {
 project('repository') {
     dependencies {
         implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+        implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+        runtimeOnly 'mysql:mysql-connector-java'
         runtimeOnly 'com.h2database:h2'
     }
 }
