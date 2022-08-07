@@ -1,6 +1,6 @@
-package hacors.kuifer.dubbo;
+package hacors.kuiff.dubbo;
 
-import hacors.kuifer.DemoService;
+import hacors.kuiff.DemoService;
 import org.apache.dubbo.config.annotation.DubboService;
 
 /**

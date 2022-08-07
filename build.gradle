@@ -1,24 +1,113 @@
-plugins {
-    id 'org.springframework.boot' version '2.3.7.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
-    id 'java'
-}
-
-group = 'com.github.hacors'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter'
-    testImplementation('org.springframework.boot:spring-boot-starter-test') {
-        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+buildscript {
+    ext {
+        set('springCloudAlibabaVersion', '2.2.2.RELEASE')
+        set('springBootVersion', '2.3.7.RELEASE')
+        set('managementVersion', '1.0.10.RELEASE')
+    }
+    repositories {
+        maven { url "https://repo.huaweicloud.com/repository/maven" }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("io.spring.gradle:dependency-management-plugin:${managementVersion}")
     }
 }
 
-test {
-    useJUnitPlatform()
+ext {
+    set('dubboVersion', '3.0.10')
 }
+
+
+allprojects {
+    group = 'hacors'
+    version = '0.0.3'
+    apply plugin: "io.spring.dependency-management"
+    apply plugin: "java"
+    apply plugin: 'java-library'
+    apply plugin: 'maven-publish'
+    repositories {
+        maven { url "https://repo.huaweicloud.com/repository/maven" }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        mavenCentral()
+    }
+    dependencyManagement {
+        imports {
+            mavenBom "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${springCloudAlibabaVersion}"
+            mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
+        }
+    }
+}
+
+subprojects {
+    dependencies {
+        compileOnly 'org.projectlombok:lombok'
+    }
+}
+
+project('api') {
+    dependencies {
+        implementation project(":contract")
+        implementation 'org.springframework.boot:spring-boot-starter'
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-sentinel'
+        implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
+        implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
+        implementation 'com.alibaba.cloud:spring-cloud-starter-dubbo'
+    }
+}
+
+project('common') {
+    dependencies {
+    }
+}
+
+project('core') {
+    dependencies {
+        implementation 'com.alibaba.cloud:spring-cloud-starter-stream-rocketmq'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    }
+}
+
+project('contract') {
+    publishing {
+        repositories {
+            maven {
+                url = uri("https://maven.pkg.github.com/hacors/kuiff")
+                credentials {
+                    username = project.findProperty("gpr_user")
+                    password = project.findProperty("gpr_key")
+                }
+            }
+        }
+        publications {
+            gpr(MavenPublication) {
+                from(components.java)
+            }
+        }
+    }
+    dependencies {
+    }
+}
+
+project('repository') {
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        runtimeOnly 'com.h2database:h2'
+    }
+}
+
+project('task') {
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    }
+}
+
+project('tool') {
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter'
+    }
+}
+

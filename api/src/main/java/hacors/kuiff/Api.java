@@ -1,4 +1,4 @@
-package hacors.kuifer;
+package hacors.kuiff;
 
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.boot.SpringApplication;

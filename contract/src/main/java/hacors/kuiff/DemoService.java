@@ -1,4 +1,4 @@
-package hacors.kuifer;
+package hacors.kuiff;
 
 /**
  * @author hakao
