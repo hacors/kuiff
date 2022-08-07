@@ -22,7 +22,7 @@ ext {
 
 allprojects {
     group = 'hacors'
-    version = '0.0.3'
+    version = '0.0.1'
     apply plugin: "io.spring.dependency-management"
     apply plugin: "java"
     apply plugin: 'java-library'
@@ -46,9 +46,9 @@ subprojects {
     }
 }
 
-project('api') {
+project('kuiff-api') {
     dependencies {
-        implementation project(":contract")
+        implementation project(":kuiff-contract")
         implementation 'org.springframework.boot:spring-boot-starter'
         implementation 'org.springframework.boot:spring-boot-starter-web'
         implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-sentinel'
@@ -58,19 +58,19 @@ project('api') {
     }
 }
 
-project('common') {
+project('kuiff-common') {
     dependencies {
     }
 }
 
-project('core') {
+project('kuiff-core') {
     dependencies {
         implementation 'com.alibaba.cloud:spring-cloud-starter-stream-rocketmq'
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
     }
 }
 
-project('contract') {
+project('kuiff-contract') {
     publishing {
         repositories {
             maven {
@@ -91,21 +91,21 @@ project('contract') {
     }
 }
 
-project('repository') {
+project('kuiff-repository') {
     dependencies {
         implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
         runtimeOnly 'com.h2database:h2'
     }
 }
 
-project('task') {
+project('kuiff-task') {
     dependencies {
         implementation 'org.springframework.boot:spring-boot-starter'
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
     }
 }
 
-project('tool') {
+project('kuiff-tool') {
     dependencies {
         implementation 'org.springframework.boot:spring-boot-starter'
     }

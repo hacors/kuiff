@@ -1,2 +1,2 @@
 rootProject.name = 'kuiff'
-include('api','common','core','repository','contract','task','tool')
+include('kuiff-api','kuiff-common','kuiff-core','kuiff-repository','kuiff-contract','kuiff-task','kuiff-tool')
