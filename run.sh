@@ -2,8 +2,8 @@
 
 echo '开始 mcCtrl 构建服务'
 
-mkdir "test"
-#
+gradle build
+
 ##export BUILD_ID=dontKillMe这一句很重要，这样指定了，项目启动之后才不会被Jenkins杀掉。
 #export BUILD_ID=dontKillMe
 #
